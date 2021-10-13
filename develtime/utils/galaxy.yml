@@ -1,0 +1,31 @@
+namespace: develtime
+
+name: utils
+
+version: 0.0.1
+
+readme: ../README.md
+
+authors:
+  - Smirnov Vadim <vadim@pba.su>
+
+description: Develtime ansible collections
+
+license:
+  - GPL-2.0-or-later
+
+license_file: ""
+
+tags: []
+
+dependencies: { "community.general": ">=3.8.0" }
+
+repository: https://github.com/develtime/galaxy.git
+
+documentation: https://github.com/develtime/galaxy/blob/main/README.md
+
+homepage: https://netology.ru
+
+issues: https://github.com/develtime/galaxy/issues
+
+build_ignore: []
