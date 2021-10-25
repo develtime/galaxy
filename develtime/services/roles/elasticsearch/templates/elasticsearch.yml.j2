@@ -1,0 +1,19 @@
+# Warning: This file is Ansible Managed, manual changes will be overwritten on next playbook run.
+#
+
+path.data: /var/lib/elasticsearch
+path.logs: /var/log/elasticsearch
+
+network.host: 0.0.0.0
+
+discovery.seed_hosts:
+{% for host in es_seed_hosts-%}
+ - "{{ host }}"
+{%- endfor %}
+
+node.name: "{{ es_node_name }}"
+
+cluster.initial_master_nodes: 
+{% for node in es_master_nodes-%}
+ - "{{ node }}"
+{%- endfor %}

@@ -1,0 +1,7 @@
+---
+- name: restart elastic
+  become: true
+  ansible.builtin.service:
+    name: elasticsearch
+    state: restarted
+    enabled: true

@@ -1,0 +1,30 @@
+- name: Include "./download.yml"
+  tags:
+    - elastic
+  run_once: true
+  include_tasks: download.yml
+
+- name: Include "./upload.yml"
+  tags:
+    - elastic
+  include_tasks: upload.yml
+
+- name: Install Elasticsearch
+  tags:
+    - elastic
+  become: true
+  dnf:
+    name: "/tmp/{{ es_package_name }}"
+    disable_gpg_check: true
+    state: present
+
+- name: Configure Elasticsearch
+  tags:
+    - elastic
+  become: true
+  ansible.builtin.template:
+    src: elasticsearch.yml.j2
+    dest: /etc/elasticsearch/elasticsearch.yml
+    mode: 0755
+  notify:
+    - restart elastic

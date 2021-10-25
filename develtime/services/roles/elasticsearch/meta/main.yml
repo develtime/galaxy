@@ -1,0 +1,21 @@
+galaxy_info:
+  role_name: elasticsearch
+  author:
+    - Develtime <smirnov.v.vadim@icloud.com>
+  description: Install and configure Elasticsearch
+  company: netology
+
+  license:
+    - GPL-2.0-or-later
+
+  min_ansible_version: 2.10
+
+  platforms:
+    - name: EL
+      versions:
+        - 8
+
+  galaxy_tags:
+    - elasticsearch
+
+dependencies: []
