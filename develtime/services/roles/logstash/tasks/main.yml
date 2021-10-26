@@ -19,14 +19,37 @@
     disable_gpg_check: true
     state: present
 
-- name: Configure Logstash
+- name: Configure Logstash logstash.yml
+  tags:
+    - logstash
+  become: true
+  ansible.builtin.template:
+    src: logstash.yml.j2
+    dest: /etc/logstash/logstash.yml
+    mode: 0755
+  notify:
+    - restart logstash
+
+- name: Configure Logstash beats-input.conf
+  tags:
+    - logstash
+  become: true
+  ansible.builtin.template:
+    src: beats-input.conf.j2
+    dest: /etc/logstash/conf.d/beats-input.conf
+    mode: 0755
+  notify:
+    - restart logstash
+
+- name: Configure Logstash beats-input.conf
   tags:
     - logstash
   become: true
   vars:
+    ls_output_addresses: "{{ groups[ls_output_host_group] | map('extract', hostvars, ['ansible_default_ipv4', 'address']) }}"
   ansible.builtin.template:
-    src: logstash.yml.j2
-    dest: /etc/logstash/logstash.yml
+    src: elasticsearch-output.conf.j2
+    dest: /etc/logstash/conf.d/elasticsearch-output.conf
     mode: 0755
   notify:
     - restart logstash

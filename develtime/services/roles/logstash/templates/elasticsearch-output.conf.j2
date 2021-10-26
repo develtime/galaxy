@@ -1,0 +1,6 @@
+output {
+  elasticsearch {
+    hosts => [{% for output_host in ls_output_addresses-%}"{{ output_host }}:{{ ls_output_port }}{{ '", ' if not loop.last else '"' }}{%- endfor %}]
+    index => "%{[@metadata][beat]}-%{+YYYY.MM.dd}"
+  }
+}
