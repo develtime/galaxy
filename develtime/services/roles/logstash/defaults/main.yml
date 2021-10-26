@@ -10,3 +10,7 @@ ls_node_name: "node-1"
 
 ls_output_host_group: "elasticsearch"
 ls_output_port: 9200
+
+ls_install_plugins:
+  - logstash-input-beats
+  - logstash-filter-multiline
