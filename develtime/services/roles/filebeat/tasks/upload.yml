@@ -1,0 +1,10 @@
+---
+- name: Upload Filebeat rpm package from local storage
+  tags:
+    - filebeat
+  ansible.builtin.copy:
+    src: "{{ playbook_dir }}/files/{{ fb_package_name }}"
+    dest: "/tmp/{{ fb_package_name }}"
+    mode: 0755
+  register: upload_filebeat
+  until: upload_filebeat is succeeded

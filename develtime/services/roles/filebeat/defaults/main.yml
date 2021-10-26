@@ -1,0 +1,15 @@
+---
+fb_version: 7.14.0
+
+fb_package_name: "filebeat-{{ fb_version }}-x86_64.rpm"
+fb_package_url: "https://artifacts.elastic.co/downloads/beats/filebeat/{{ fb_package_name }}"
+
+fb_modules:
+  - system
+
+fb_es_host_group: "elasticsearch"
+fb_es_port: 9200
+
+fb_kbn_host: "kibana"
+fb_kbn_port: 5601
+

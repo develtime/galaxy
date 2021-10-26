@@ -1,0 +1,14 @@
+---
+- name: Download Filebeat rpm package
+  tags:
+    - filebeat
+  delegate_to: localhost
+  run_once: true
+  ansible.builtin.get_url:
+    url: "{{ fb_package_url }}"
+    dest: "{{ playbook_dir }}/files/{{ fb_package_name }}"
+    mode: 0755
+    timeout: 60
+    validate_certs: false
+  register: get_filebeat
+  until: get_filebeat is succeeded

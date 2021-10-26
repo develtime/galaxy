@@ -1,0 +1,46 @@
+---
+- name: Include "./download.yml"
+  tags:
+    - filebeat
+  import_tasks: download.yml
+
+- name: Include "./upload.yml"
+  tags:
+    - filebeat
+  import_tasks: upload.yml
+
+- name: Install Filebeat
+  tags:
+    - filebeat
+  become: true
+  dnf:
+    name: "/tmp/{{ fb_package_name }}"
+    disable_gpg_check: true
+    state: present
+
+- name: Configure Filebeat
+  tags:
+    - filebeat
+  become: true
+  ansible.builtin.template:
+    src: filebeat.yml.j2
+    dest: /etc/filebeat/filebeat.yml
+    mode: 0755
+  notify:
+    - restart filebeat
+
+- name: Load Kibana dashboards
+  tags:
+    - filebeat
+  become: true
+  vars:
+    fb_es_addresses: "{{ groups[fb_es_host_group] | map('extract', hostvars, ['ansible_default_ipv4', 'address']) }}"
+    fb_kbn_address: "{{ hostvars[fb_kbn_host]['ansible_facts']['default_ipv4']['address'] }}"
+  command:
+    cmd: filebeat setup
+    chdir: /usr/share/filebeat/bin
+  register: setup_filebeat
+  until: setup_filebeat is succeeded
+  when: fb_setup_dashboards
+  notify:
+    - restart filebeat

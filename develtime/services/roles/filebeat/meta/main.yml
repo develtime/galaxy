@@ -1,0 +1,21 @@
+galaxy_info:
+  role_name: filebeat
+  author:
+    - Develtime <smirnov.v.vadim@icloud.com>
+  description: Install and configure Filebeat
+  company: netology
+
+  license:
+    - MIT
+
+  min_ansible_version: 2.10
+
+  platforms:
+    - name: EL
+      versions:
+        - 8
+
+  galaxy_tags:
+    - filebeat
+
+dependencies: []
