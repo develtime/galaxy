@@ -4,9 +4,10 @@
     - logstash
   become: true
   command:
-    cmd: logstash-plugin list
+    cmd: ./logstash-plugin list
     chdir: /usr/share/logstash/bin
   register: logstash_plugins_list
+  until: logstash_plugins_list is succeeded
   changed_when: false
 
 - name: Install configured plugins.
@@ -14,7 +15,7 @@
     - logstash
   become: true
   command:
-    cmd: logstash-plugin install {{ item }}
+    cmd: "./logstash-plugin install {{ item }}"
     chdir: /usr/share/logstash/bin
   with_items: "{{ logstash_install_plugins }}"
   when: "item not in logstash_plugins_list.stdout"
