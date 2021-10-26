@@ -18,6 +18,11 @@
     disable_gpg_check: true
     state: present
 
+- name: Include "./plugins.yml"
+  tags:
+    - logstash
+  import_tasks: plugins.yml
+
 - name: Configure Logstash logstash.yml
   tags:
     - logstash
@@ -52,8 +57,3 @@
     mode: 0755
   notify:
     - restart logstash
-
-- name: Include "./plugins.yml"
-  tags:
-    - logstash
-  import_tasks: plugins.yml

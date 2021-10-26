@@ -1,5 +1,5 @@
 ---
-- name: Get list of installed plugins.
+- name: Get list of installed plugins
   tags:
     - logstash
   become: true
@@ -10,7 +10,7 @@
   until: logstash_plugins_list is succeeded
   changed_when: false
 
-- name: Install configured plugins.
+- name: Install configured plugins
   tags:
     - logstash
   become: true
@@ -19,4 +19,5 @@
     chdir: /usr/share/logstash/bin
   with_items: "{{ ls_install_plugins }}"
   when: "item not in logstash_plugins_list.stdout"
-  notify: restart logstash
+  notify:
+    - restart logstash
