@@ -1,0 +1,10 @@
+---
+- name: Upload Logstash rpm package from local storage
+  tags:
+    - logstash
+  ansible.builtin.copy:
+    src: "{{ playbook_dir }}/files/{{ ls_package_name }}"
+    dest: "/tmp/{{ ls_package_name }}"
+    mode: 0755
+  register: upload_logstash
+  until: upload_logstash is succeeded

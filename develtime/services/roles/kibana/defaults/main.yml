@@ -6,3 +6,4 @@ kbn_package_name: "kibana-{{ kbn_version }}-x86_64.rpm"
 kbn_package_url: "https://artifacts.elastic.co/downloads/kibana/{{ kbn_package_name }}"
 
 kbn_es_host_group: "elasticsearch"
+kbn_es_port: 9200

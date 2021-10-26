@@ -1,0 +1,21 @@
+galaxy_info:
+  role_name: logstash
+  author:
+    - Develtime <smirnov.v.vadim@icloud.com>
+  description: Install and configure Logstash
+  company: netology
+
+  license:
+    - MIT
+
+  min_ansible_version: 2.10
+
+  platforms:
+    - name: EL
+      versions:
+        - 8
+
+  galaxy_tags:
+    - logstash
+
+dependencies: []

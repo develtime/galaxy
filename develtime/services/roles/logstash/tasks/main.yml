@@ -1,0 +1,32 @@
+# /etc/logstash/logstash.yml
+---
+- name: Include "./download.yml"
+  tags:
+    - logstash
+  import_tasks: download.yml
+
+- name: Include "./upload.yml"
+  tags:
+    - logstash
+  import_tasks: upload.yml
+
+- name: Install Logstash
+  tags:
+    - logstash
+  become: true
+  dnf:
+    name: "/tmp/{{ ls_package_name }}"
+    disable_gpg_check: true
+    state: present
+
+- name: Configure Logstash
+  tags:
+    - logstash
+  become: true
+  vars:
+  ansible.builtin.template:
+    src: logstash.yml.j2
+    dest: /etc/logstash/logstash.yml
+    mode: 0755
+  notify:
+    - restart logstash

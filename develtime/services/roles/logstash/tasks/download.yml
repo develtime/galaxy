@@ -1,0 +1,13 @@
+- name: Download Logstash rpm package
+  tags:
+    - logstash
+  delegate_to: localhost
+  run_once: true
+  ansible.builtin.get_url:
+    url: "{{ ls_package_url }}"
+    dest: "{{ playbook_dir }}/files/{{ ls_package_name }}"
+    mode: 0755
+    timeout: 60
+    validate_certs: false
+  register: get_logstash
+  until: get_logstash is succeeded

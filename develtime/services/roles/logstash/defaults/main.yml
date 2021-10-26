@@ -1,0 +1,8 @@
+---
+ls_version: 7.14.0
+ls_port: 9600
+
+ls_package_name: "elasticsearch-{{ ls_version }}-x86_64.rpm"
+ls_package_url: "https://artifacts.elastic.co/downloads/logstash/{{ ls_package_name }}"
+
+ls_node_name: "node-1"
