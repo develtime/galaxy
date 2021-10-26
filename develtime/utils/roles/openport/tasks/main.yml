@@ -1,0 +1,14 @@
+---
+- name: Firewalld allow port
+  become: true
+  tags:
+    - firewalld
+  vars:
+    port: "{{ ( item | string ).split('/')[0] }}"
+    proto: "{{ ( item | string ).split('/')[1] | default(open_port_default_proto) }}"
+  ansible.posix.firewalld:
+    port: "{{ port }}/{{ proto }}"
+    permanent: true
+    immediate: true
+    state: enabled
+  with_items: "{{ open_ports }}"
