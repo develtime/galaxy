@@ -22,6 +22,9 @@
   tags:
     - filebeat
   become: true
+  vars:
+    fb_es_addresses: "{{ groups[fb_es_host_group] | map('extract', hostvars, ['ansible_default_ipv4', 'address']) }}"
+    fb_kbn_address: "{{ hostvars[fb_kbn_host]['ansible_facts']['default_ipv4']['address'] }}"
   ansible.builtin.template:
     src: filebeat.yml.j2
     dest: /etc/filebeat/filebeat.yml
@@ -33,9 +36,6 @@
   tags:
     - filebeat
   become: true
-  vars:
-    fb_es_addresses: "{{ groups[fb_es_host_group] | map('extract', hostvars, ['ansible_default_ipv4', 'address']) }}"
-    fb_kbn_address: "{{ hostvars[fb_kbn_host]['ansible_facts']['default_ipv4']['address'] }}"
   command:
     cmd: filebeat setup
     chdir: /usr/share/filebeat/bin
