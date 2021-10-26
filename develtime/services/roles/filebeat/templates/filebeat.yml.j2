@@ -2,13 +2,13 @@
 #
 
 output:
-  {% if fb_output_logstash %}
+{% if fb_output_logstash %}
   logstash:
     hosts: [{% for output_host in fb_output_addresses-%}"{{ output_host }}:{{ fb_output_port }}{{ '", ' if not loop.last else '"' }}{%- endfor %}]
-  {% else %}
+{% else %}
   elasticsearch:
     hosts: [{% for output_host in fb_output_addresses-%}"http://{{ output_host }}:{{ fb_output_port }}{{ '", ' if not loop.last else '"' }}{%- endfor %}]
-  {% endif %} 
+{% endif %} 
 
 setup.kibana:
   host: "http://{{ fb_kbn_address }}:{{ fb_kbn_port }}"
