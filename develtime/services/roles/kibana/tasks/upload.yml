@@ -1,0 +1,10 @@
+---
+- name: Upload Kibana rpm package from local storage
+  tags:
+    - kibana
+  ansible.builtin.copy:
+    src: "{{ playbook_dir }}/files/{{ kbn_package_name }}"
+    dest: "/tmp/{{ kbn_package_name }}"
+    mode: 0755
+  register: upload_kibana
+  until: upload_kibana is succeeded

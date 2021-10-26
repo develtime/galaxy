@@ -1,0 +1,31 @@
+- name: Include "./download.yml"
+  tags:
+    - kibana
+  import_tasks: download.yml
+
+- name: Include "./upload.yml"
+  tags:
+    - kibana
+  import_tasks: upload.yml
+
+- name: Install Kibana
+  tags:
+    - kibana
+  become: true
+  dnf:
+    name: "/tmp/{{ kbn_package_name }}"
+    disable_gpg_check: true
+    state: present
+
+- name: Configure Kibana
+  tags:
+    - kibana
+  become: true
+  vars:
+    kbn_es_addresses: "{{ groups[kbn_es_host_group] | map('extract', hostvars, ['ansible_default_ipv4', 'address']) }}"
+  ansible.builtin.template:
+    src: kibana.yml.j2
+    dest: /etc/kibana/kibana.yml
+    mode: 0755
+  notify:
+    - restart kibana

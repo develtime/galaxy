@@ -1,13 +1,12 @@
 - name: Include "./download.yml"
   tags:
     - elastic
-  run_once: true
-  include_tasks: download.yml
+  import_tasks: download.yml
 
 - name: Include "./upload.yml"
   tags:
     - elastic
-  include_tasks: upload.yml
+  import_tasks: upload.yml
 
 - name: Install Elasticsearch
   tags:

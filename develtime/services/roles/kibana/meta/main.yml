@@ -1,8 +1,8 @@
 galaxy_info:
-  role_name: elasticsearch
+  role_name: kibana
   author:
     - Develtime <smirnov.v.vadim@icloud.com>
-  description: Install and configure Elasticsearch
+  description: Install and configure Kibana
   company: netology
 
   license:
@@ -16,6 +16,6 @@ galaxy_info:
         - 8
 
   galaxy_tags:
-    - elasticsearch
+    - kibana
 
 dependencies: []

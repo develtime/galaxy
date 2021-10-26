@@ -12,7 +12,7 @@ authors:
 description: Develtime ansible collections
 
 license:
-  - GPL-2.0-or-later
+  - MIT
 
 license_file: ""
 

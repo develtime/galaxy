@@ -1,0 +1,3 @@
+---
+open_port_default_proto: tcp
+open_ports: []

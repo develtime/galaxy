@@ -1,0 +1,7 @@
+# Warning: This file is Ansible Managed, manual changes will be overwritten on next playbook run.
+#
+
+server.port: {{ kbn_port }}
+server.host: "0.0.0.0"
+elasticsearch.hosts: [{% for es_host in kbn_es_addresses-%}"http://{{ es_host }}:{{ kbn_es_port }}{{ '", ' if not loop.last else '"' }}{%- endfor %}]
+kibana.index: ".kibana"

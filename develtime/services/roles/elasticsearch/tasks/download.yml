@@ -2,6 +2,7 @@
   tags:
     - elastic
   delegate_to: localhost
+  run_once: true
   ansible.builtin.get_url:
     url: "{{ es_package_url }}"
     dest: "{{ playbook_dir }}/files/{{ es_package_name }}"
