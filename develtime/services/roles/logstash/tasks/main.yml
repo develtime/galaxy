@@ -18,24 +18,6 @@
     disable_gpg_check: true
     state: present
 
-- name: Change privilege for logstash directories
-  tags:
-    - logstash
-  become: true
-  file:
-    path: "{{ item }}"
-    state: directory
-    recurse: yes
-    follow: yes
-    owner: "{{ ls_user }}"
-    group: "{{ ls_group }}"
-  with_items:
-    - "{{ ls_home }}"
-    - "{{ ls_log_directory }}"
-    - "{{ ls_conf_directory }}"
-  notify:
-    - restart logstash
-
 - name: Include "./plugins.yml"
   tags:
     - logstash
@@ -73,5 +55,23 @@
     src: elasticsearch-output.conf.j2
     dest: "{{ ls_conf_directory }}/conf.d/elasticsearch-output.conf"
     mode: 0755
+  notify:
+    - restart logstash
+
+- name: Change privilege for logstash directories
+  tags:
+    - logstash
+  become: true
+  file:
+    path: "{{ item }}"
+    state: directory
+    recurse: yes
+    follow: yes
+    owner: "{{ ls_user }}"
+    group: "{{ ls_group }}"
+  with_items:
+    - "{{ ls_home }}"
+    - "{{ ls_log_directory }}"
+    - "{{ ls_conf_directory }}"
   notify:
     - restart logstash
