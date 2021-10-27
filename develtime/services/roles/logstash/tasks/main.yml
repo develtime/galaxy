@@ -18,6 +18,18 @@
     disable_gpg_check: true
     state: present
 
+# - name: Change privilege for log directory "{{ ls_log_directory }}"
+#   tags:
+#     - logstash
+#   become: true
+#   file:
+#     path: "{{ ls_log_directory }}"
+#     state: directory
+#     recurse: yes
+#     follow: yes
+#     owner: "{{ ls_user }}"
+#     group: "{{ ls_group }}"
+
 - name: Include "./plugins.yml"
   tags:
     - logstash

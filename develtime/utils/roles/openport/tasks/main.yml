@@ -11,4 +11,5 @@
     permanent: true
     immediate: true
     state: enabled
+    offline: false
   with_items: "{{ open_ports }}"
