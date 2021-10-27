@@ -13,3 +13,4 @@
     state: enabled
     offline: false
   with_items: "{{ open_ports }}"
+  when: "'firewalld.service' in services"
