@@ -3,7 +3,7 @@ ls_user: logstash
 ls_group: logstash
 
 ls_version: 7.14.0
-ls_port: 9600
+# ls_port: 9600
 ls_beats_port: 5044
 
 ls_package_name: "logstash-{{ ls_version }}-x86_64.rpm"
