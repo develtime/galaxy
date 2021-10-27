@@ -20,3 +20,4 @@ ls_install_plugins:
 
 ls_home: "/usr/share/logstash"
 ls_log_directory: "{{ ls_home }}/logs"
+ls_conf_directory: "/etc/logstash"
