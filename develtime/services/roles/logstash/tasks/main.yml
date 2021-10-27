@@ -32,6 +32,8 @@
   with_items:
     - "{{ ls_home }}"
     - "{{ ls_log_directory }}"
+  notify:
+    - restart logstash
 
 - name: Include "./plugins.yml"
   tags:
