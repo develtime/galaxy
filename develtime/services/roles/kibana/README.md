@@ -6,14 +6,15 @@ Kibana is a role for install `kibana` service from `rpm` package
 Role Variables
 --------------
 
-| Name              | Type   | Default value                                                        | Description                       |
-| ----------------- | ------ | -------------------------------------------------------------------- | --------------------------------- |
-| kbn_version       | string | 7.14.0                                                               | Версия Filebeat                   |
-| kbn_port          | number | 5601                                                                 | Порт по умолчанию                 |
-| kbn_package_name  | string | kibana-{{ kbn_version }}-x86_64.rpm                                  | Имя пакета                        |
-| kbn_package_url   | string | https://artifacts.elastic.co/downloads/kibana/{{ kbn_package_name }} | Ссылка на скачивание пакета       |
-| kbn_es_host_group | string | elasticsearch                                                        | Имя хоста сервера `elasticsearch` |
-| kbn_es_port       | number | 9200                                                                 | Порт сервера `elasticsearch`      |
+| Name              | Type   | Default value                                                        | Description                                                                              |
+| ----------------- | ------ | -------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| kbn_version       | string | 7.14.0                                                               | Версия Filebeat                                                                          |
+| kbn_port          | number | 5601                                                                 | Порт по умолчанию                                                                        |
+| kbn_package_name  | string | kibana-{{ kbn_version }}-x86_64.rpm                                  | Имя пакета                                                                               |
+| kbn_package_url   | string | https://artifacts.elastic.co/downloads/kibana/{{ kbn_package_name }} | Ссылка на скачивание пакета                                                              |
+| kbn_es_host_group | string | elasticsearch                                                        | Имя хоста сервера `elasticsearch`                                                        |
+| kbn_es_address    | string | 127.0.0.1                                                            | Адрес хоста сервера `elasticsearch`. Используется, если группа не указана или не найдена |
+| kbn_es_port       | number | 9200                                                                 | Порт сервера `elasticsearch`                                                             |
 
 
 Tags

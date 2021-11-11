@@ -1,0 +1,33 @@
+---
+- name: Ensure "{{ playbook_dir }}/files/{{ fb_package_name }}" is exists
+  tags:
+    - filebeat
+  delegate_to: localhost
+  stat:
+    get_checksum: false
+    path: "{{ playbook_dir }}/files/{{ fb_package_name }}"
+  register: stat_result
+
+- name: Download Filebeat package
+  tags:
+    - filebeat
+  delegate_to: localhost
+  ansible.builtin.get_url:
+    url: "{{ fb_package_url }}"
+    dest: "{{ playbook_dir }}/files/{{ fb_package_name }}"
+    mode: 0755
+    timeout: 60
+    validate_certs: false
+  register: get_filebeat
+  until: get_filebeat is succeeded
+  when: not stat_result.stat.exists
+
+- name: Upload Filebeat package from local storage
+  tags:
+    - filebeat
+  ansible.builtin.copy:
+    src: "{{ playbook_dir }}/files/{{ fb_package_name }}"
+    dest: "/tmp/{{ fb_package_name }}"
+    mode: 0755
+  register: upload_filebeat
+  until: upload_filebeat is succeeded

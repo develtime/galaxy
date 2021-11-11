@@ -1,28 +1,39 @@
-- name: Include "./download.yml"
+---
+- name: Import "distrib.yml"
   tags:
     - kibana
-  import_tasks: download.yml
-
-- name: Include "./upload.yml"
-  tags:
-    - kibana
-  import_tasks: upload.yml
+  import_tasks: distrib.yml
 
 - name: Install Kibana
   tags:
     - kibana
   become: true
-  dnf:
+  yum:
     name: "/tmp/{{ kbn_package_name }}"
     disable_gpg_check: true
     state: present
+  notify:
+    - restart kibana
+  when: ansible_os_family == "RedHat" and ansible_distribution_major_version|int >= 7
+
+- name: Install Kibana
+  tags:
+    - kibana
+  become: true
+  apt:
+    deb: "/tmp/{{ kbn_package_name }}"
+    force: true
+    state: present
+  notify:
+    - restart kibana
+  when: ansible_os_family == "Debian"
 
 - name: Configure Kibana
   tags:
     - kibana
   become: true
   vars:
-    kbn_es_addresses: "{{ groups[kbn_es_host_group] | map('extract', hostvars, ['ansible_default_ipv4', 'address']) }}"
+    kbn_es_addresses: "{% if kbn_es_host_group in groups %}{{ groups[kbn_es_host_group] | map('extract', hostvars, ['ansible_default_ipv4', 'address']) }}{% else %}{{ [kbn_es_address] }}{% endif %}"
   ansible.builtin.template:
     src: kibana.yml.j2
     dest: /etc/kibana/kibana.yml

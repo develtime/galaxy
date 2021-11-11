@@ -1,0 +1,33 @@
+---
+- name: Ensure "{{ playbook_dir }}/files/{{ kbn_package_name }}" is exists
+  tags:
+    - kibana
+  delegate_to: localhost
+  stat:
+    get_checksum: false
+    path: "{{ playbook_dir }}/files/{{ kbn_package_name }}"
+  register: stat_result
+
+- name: Download Kibana package
+  tags:
+    - kibana
+  delegate_to: localhost
+  ansible.builtin.get_url:
+    url: "{{ kbn_package_url }}"
+    dest: "{{ playbook_dir }}/files/{{ kbn_package_name }}"
+    mode: 0755
+    timeout: 60
+    validate_certs: false
+  register: get_kibana
+  until: get_kibana is succeeded
+  when: not stat_result.stat.exists
+
+- name: Upload Kibana package from local storage
+  tags:
+    - kibana
+  ansible.builtin.copy:
+    src: "{{ playbook_dir }}/files/{{ kbn_package_name }}"
+    dest: "/tmp/{{ kbn_package_name }}"
+    mode: 0755
+  register: upload_kibana
+  until: upload_kibana is succeeded

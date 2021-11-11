@@ -1,0 +1,32 @@
+- name: Ensure "{{ playbook_dir }}/files/{{ es_package_name }}" is exists
+  tags:
+    - elastic
+  delegate_to: localhost
+  stat:
+    get_checksum: false
+    path: "{{ playbook_dir }}/files/{{ es_package_name }}"
+  register: stat_result
+
+- name: Download Elasticsearch package
+  tags:
+    - elastic
+  delegate_to: localhost
+  ansible.builtin.get_url:
+    url: "{{ es_package_url }}"
+    dest: "{{ playbook_dir }}/files/{{ es_package_name }}"
+    mode: 0755
+    timeout: 60
+    validate_certs: false
+  register: get_elastic
+  until: get_elastic is succeeded
+  when: not stat_result.stat.exists
+
+- name: Upload Elasticsearch package from local storage
+  tags:
+    - elastic
+  ansible.builtin.copy:
+    src: "{{ playbook_dir }}/files/{{ es_package_name }}"
+    dest: "/tmp/{{ es_package_name }}"
+    mode: 0755
+  register: upload_elastic
+  until: upload_elastic is succeeded

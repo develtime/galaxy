@@ -1,30 +1,40 @@
 ---
-- name: Include "./download.yml"
+- name: Import "distrib.yml"
   tags:
     - filebeat
-  import_tasks: download.yml
-
-- name: Include "./upload.yml"
-  tags:
-    - filebeat
-  import_tasks: upload.yml
+  import_tasks: distrib.yml
 
 - name: Install Filebeat
   tags:
     - filebeat
   become: true
-  dnf:
+  yum:
     name: "/tmp/{{ fb_package_name }}"
     disable_gpg_check: true
     state: present
+  notify:
+    - restart filebeat
+  when: ansible_os_family == "RedHat" and ansible_distribution_major_version|int >= 7
+
+- name: Install Filebeat
+  tags:
+    - filebeat
+  become: true
+  apt:
+    deb: "/tmp/{{ fb_package_name }}"
+    force: true
+    state: present
+  notify:
+    - restart filebeat
+  when: ansible_os_family == "Debian"
 
 - name: Configure Filebeat
   tags:
     - filebeat
   become: true
   vars:
-    fb_output_addresses: "{{ groups[fb_output_host_group] | map('extract', hostvars, ['ansible_default_ipv4', 'address']) }}"
-    fb_kbn_address: "{{ hostvars[fb_kbn_host]['ansible_facts']['default_ipv4']['address'] }}"
+    fb_output_addresses: "{% if fb_output_host_group in groups %}{{ groups[fb_output_host_group] | map('extract', hostvars, ['ansible_default_ipv4', 'address']) }}{% else %}{{ [fb_output_host_address] }}{% endif %}"
+    fb_kbn_address: "{% if fb_kbn_host in hostvars %}{{ hostvars[fb_kbn_host]['ansible_facts']['default_ipv4']['address'] }}{% else %}{{ fb_kbn_host_address }}{% endif %}"
   ansible.builtin.template:
     src: filebeat.yml.j2
     dest: /etc/filebeat/filebeat.yml

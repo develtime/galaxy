@@ -1,15 +1,20 @@
 ---
 fb_version: 7.14.0
 
-fb_package_name: "filebeat-{{ fb_version }}-x86_64.rpm"
+fb_package_name: "{% if ansible_os_family == 'RedHat' %}filebeat-{{ fb_version }}-x86_64.rpm{% else %}filebeat-{{ fb_version }}-amd64.deb{% endif %}"
 fb_package_url: "https://artifacts.elastic.co/downloads/beats/filebeat/{{ fb_package_name }}"
 
 fb_modules:
   - system
 
 fb_output_logstash: false
+
 fb_output_host_group: "elasticsearch"
+# If fb_output_host_group is not presented
+fb_output_host_address: 127.0.0.1
 fb_output_port: 9200
 
 fb_kbn_host: "kibana"
+# If fb_kbn_host is not presented
+fb_kbn_host_address: 127.0.0.1
 fb_kbn_port: 5601

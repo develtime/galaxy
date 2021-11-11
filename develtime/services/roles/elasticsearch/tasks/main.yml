@@ -1,21 +1,31 @@
-- name: Include "./download.yml"
+- name: Import "distrib.yml"
   tags:
     - elastic
-  import_tasks: download.yml
-
-- name: Include "./upload.yml"
-  tags:
-    - elastic
-  import_tasks: upload.yml
+  import_tasks: distrib.yml
 
 - name: Install Elasticsearch
   tags:
     - elastic
   become: true
-  dnf:
+  yum:
     name: "/tmp/{{ es_package_name }}"
     disable_gpg_check: true
     state: present
+  notify:
+    - restart elastic
+  when: ansible_os_family == "RedHat" and ansible_distribution_major_version|int >= 7
+
+- name: Install Elasticsearch
+  tags:
+    - elastic
+  become: true
+  apt:
+    deb: "/tmp/{{ es_package_name }}"
+    force: true
+    state: present
+  notify:
+    - restart elastic
+  when: ansible_os_family == "Debian"
 
 - name: Configure Elasticsearch
   tags:
