@@ -1,0 +1,8 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Collect facts about system services
+      service_facts:
+      failed_when: "'filebeat' not in services and 'filebeat.service' not in services"

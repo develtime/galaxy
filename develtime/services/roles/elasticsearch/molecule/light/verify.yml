@@ -1,0 +1,16 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Check Elasticsearch service
+      uri:
+        url: "http://localhost:9200"
+        return_content: true
+        status_code: 200
+
+    - name: Check Elasticsearch cluster
+      uri:
+        url: "http://localhost:9200/_cluster/health?pretty"
+        return_content: true
+        status_code: 200
