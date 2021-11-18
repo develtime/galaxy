@@ -1,0 +1,7 @@
+---
+- name: Example task
+  tags:
+    - example
+  example_file:
+    path: "{{ example_path }}"
+    content: "{{ example_content }}"

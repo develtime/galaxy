@@ -1,0 +1,15 @@
+galaxy_info:
+  role_name: example
+  author: Develtime <smirnov.v.vadim@icloud.com>
+  description: Example role with custom module
+  company: netology
+
+  license:
+    - MIT
+
+  min_ansible_version: 2.10
+
+  galaxy_tags:
+    - example
+
+dependencies: []
