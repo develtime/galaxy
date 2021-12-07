@@ -1,6 +1,6 @@
 galaxy_info:
   role_name: elasticsearch
-  namespace: develtime.services
+  namespace: develtime
   author: Develtime <smirnov.v.vadim@icloud.com>
   description: Install and configure Elasticsearch
   company: netology
